@@ -1,23 +1,24 @@
-hour = int(input("enter what hour work starts in 24 hour format ")); 
-minute = int(input("enter what minute work starts ")); 
-day = str(input("enter what day it is ('week','sat','sun') "))
+from __future__ import print_function
+hour = int(raw_input("enter what hour work starts in 24 hour format ")); 
+minute = int(raw_input("enter what minute work starts ")); 
+day = str(raw_input("enter what day it is ('week','sat','sun') "));
 busnum = 0;
 arr246 = []
 arrother = []; 
 
-def gethour(line):
+def getHour(line):
     if len(line)>=8 :
         return int(line[5])*10+int(line[6])
     else :
         return int(line[0])*10+int(line[1])
 #
-def getminute(line): 
+def getMinute(line): 
     if len(line) >= 8 : 
         return int(line[8])*10 + int(line[9])
     else: 
         return int(line[3])*10 + int(line[4])
 # 
-# def getminute(line): 
+# def getMinute(line): 
 #     if len(line) >= 7:
 #         return int(line[line[4:].index(':')+1]*10 + line[line[4:].index(':')+2])
 #     else :
@@ -28,21 +29,21 @@ def gotowork():
     busname = 'text'+str(busnum)+'-'+day+'.txt'
     file246 = open(busname,'r') 
     for line in file246.readlines(): 
-        if gethour(line) >= (hour -2) and gethour(line) < (hour ): 
+        if getHour(line) >= (hour -2) and getHour(line) < (hour ): 
             arr246.append(line)
 
     busnum = 250
     busname = 'text'+str(busnum)+'-'+day+'.txt'
     file = open(busname,'r')
     for line in file.readlines():
-        if gethour(line) >= hour -2 and gethour(line) <= hour: 
+        if getHour(line) >= hour -2 and getHour(line) <= hour: 
             arrother.append(str(busnum)+": "+line)
 
     busnum = 255
     busname = 'text'+str(busnum)+'-'+day+'.txt'
     file = open(busname,'r')
     for line in file.readlines():
-        if gethour(line) >= hour -2 and gethour(line) <= hour: 
+        if getHour(line) >= hour -2 and getHour(line) <= hour: 
             arrother.append(str(busnum)+": "+line)
     file.close()
     file246.close()
@@ -50,16 +51,16 @@ def gotowork():
 def printschedule():
     print("246 :")
     for i in arr246:
-        if (gethour(i) <= (hour-1 ) and minute == 0 and getminute(i) <= 5) or ( minute ==30 and  getminute(i) <=30 and gethour(i) <hour  ):
-            print("advised",)
-        print(i)
-    print("and then :")
+        if (getHour(i) <= (hour-1 ) and minute == 0 and getMinute(i) <= 5) or ( minute ==30 and  getMinute(i) <=30 and getHour(i) <hour  ):
+            print("advised ",end ='')
+        print(i,end ='');
 
-    for i in arrother: 
-        
-        if (gethour(i) >= (hour-1 ) and minute == 0) :
-            print("advised",)
-        print(i)
+    print("****AND THEN****")
+
+    for i in arrother:       
+        if ((getHour(i) >= (hour-1 )) and ((minute>=30 and getMinute(i) <=10) or (minute ==0 and getMinute(i) <=40 ) )):
+            print("advised ",end='')
+        print(i,end ='' )
 
 gotowork()
 printschedule()
