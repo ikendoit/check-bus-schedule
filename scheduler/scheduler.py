@@ -1,9 +1,6 @@
-# hour = int(input("enter what hour work starts in 24 hour format ")); 
-# minute = int(input("enter what minute work starts ")); 
-# day = str(input("enter what day it is ('week','sat','sun') "))
-hour = 13
-minute = 0
-day = 'sun'
+hour = int(input("enter what hour work starts in 24 hour format ")); 
+minute = int(input("enter what minute work starts ")); 
+day = str(input("enter what day it is ('week','sat','sun') "))
 busnum = 0;
 arr246 = []
 arrother = []; 
@@ -20,11 +17,11 @@ def getminute(line):
     else: 
         return int(line[3])*10 + int(line[4])
 # 
-def getminute(line): 
-    if len(line) >= 7:
-        return int(line[line[4:].index(':')+1]*10 + line[line[4:].index(':')+2])
-    else :
-        return int(line[line.index(':')+1]*10 + line[line.index(':')+2])
+# def getminute(line): 
+#     if len(line) >= 7:
+#         return int(line[line[4:].index(':')+1]*10 + line[line[4:].index(':')+2])
+#     else :
+#         return int(line[line.index(':')+1]*10 + line[line.index(':')+2])
 #
 def gotowork():
     busnum = 246
@@ -38,14 +35,14 @@ def gotowork():
     busname = 'text'+str(busnum)+'-'+day+'.txt'
     file = open(busname,'r')
     for line in file.readlines():
-        if gethour(line) >= hour -2 and gethour(line) < hour: 
+        if gethour(line) >= hour -2 and gethour(line) <= hour: 
             arrother.append(str(busnum)+": "+line)
 
     busnum = 255
     busname = 'text'+str(busnum)+'-'+day+'.txt'
     file = open(busname,'r')
     for line in file.readlines():
-        if gethour(line) >= hour -2 and gethour(line) < hour: 
+        if gethour(line) >= hour -2 and gethour(line) <= hour: 
             arrother.append(str(busnum)+": "+line)
     file.close()
     file246.close()
@@ -53,13 +50,14 @@ def gotowork():
 def printschedule():
     print("246 :")
     for i in arr246:
-        if (gethour(i) < (hour -1)):
+        if (gethour(i) <= (hour-1 ) and minute == 0 and getminute(i) <= 5) or ( minute ==30 and  getminute(i) <=30 and gethour(i) <hour  ):
             print("advised",)
         print(i)
     print("and then :")
 
     for i in arrother: 
-        if (gethour(i) >= (hour -1)):
+        
+        if (gethour(i) >= (hour-1 ) and minute == 0) :
             print("advised",)
         print(i)
 
